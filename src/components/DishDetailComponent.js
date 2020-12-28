@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState , Component } from 'react';
 import {Card, CardImg, CardBody, CardTitle, CardText,Breadcrumb,BreadcrumbItem,Button,Modal,ModalBody,ModalHeader,ModalFooter,Row,Col,Label} from 'reactstrap';
 import {Control,LocalForm,Errors} from 'react-redux-form';
 import {Link} from 'react-router-dom';
@@ -8,10 +8,9 @@ const maxLength = (len) => (val) => !(val) || (val.length <= len);
 const minLength = (len) => (val) => val && (val.length >= len);
 
 
-const CommentForm =() =>{
+const CommentForm =(props) =>{
     const handleSubmit=(values)=>{
-        console.log('Current State is: ' + JSON.stringify(values));
-        alert('Current State is: ' + JSON.stringify(values));
+        props.addComment(props.dishId, values.rating, values.author, values.comment);
         toggle();
     }
     const [modal, setModal] = useState(false);
@@ -79,7 +78,7 @@ function RenderDish({dish}){
     }
 }
 
-function RenderCardComments({comments}){
+function RenderCardComments({comments, addComment, dishId}){
     if(comments != null){
         const commentsMap = comments.map(
             (comment) => {
@@ -94,7 +93,7 @@ function RenderCardComments({comments}){
             <div className="col-12 col-md-5 m-1">
                 <h1>Comments</h1>
                 {commentsMap}
-                <CommentForm></CommentForm>
+                <CommentForm dishId={dishId} addComment={addComment}></CommentForm>
             </div>
             )
     } else{
@@ -120,7 +119,7 @@ const DishDetail = (props) =>{
                         <div className="col-12 col-md-5 m-1">
                             <RenderDish dish={props.dish}></RenderDish>
                         </div>
-                        <RenderCardComments comments={props.comments}></RenderCardComments>
+                        <RenderCardComments comments={props.comments} addComment={props.addComment} dishId={props.dish.id}></RenderCardComments>
                         
                     </div>
                     
