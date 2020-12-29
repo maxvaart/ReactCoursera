@@ -12,7 +12,7 @@ const minLength = (len) => (val) => val && (val.length >= len);
 
 const CommentForm =(props) =>{
     const handleSubmit=(values)=>{
-        props.addComment(props.dishId, values.rating, values.author, values.comment);
+        props.postComment(props.dishId, values.rating, values.author, values.comment);
         toggle();
     }
     const [modal, setModal] = useState(false);
@@ -76,7 +76,7 @@ function RenderDish({dish}){
     }
 }
 
-function RenderCardComments({comments, addComment, dishId}){
+function RenderCardComments({comments, postComment, dishId}){
     if(comments != null){
         const commentsMap = comments.map(
             (comment) => {
@@ -91,7 +91,7 @@ function RenderCardComments({comments, addComment, dishId}){
             <div className="col-12 col-md-5 m-1">
                 <h1>Comments</h1>
                 {commentsMap}
-                <CommentForm dishId={dishId} addComment={addComment}></CommentForm>
+                <CommentForm dishId={dishId} postComment={postComment}></CommentForm>
             </div>
             )
     } else{
@@ -134,7 +134,7 @@ const DishDetail = (props) =>{
                         <div className="col-12 col-md-5 m-1">
                             <RenderDish dish={props.dish}></RenderDish>
                         </div>
-                        <RenderCardComments comments={props.comments} addComment={props.addComment} dishId={props.dish.id}></RenderCardComments>
+                        <RenderCardComments comments={props.comments} postComment={props.postComment} dishId={props.dish.id}></RenderCardComments>
                         
                     </div>
                     
